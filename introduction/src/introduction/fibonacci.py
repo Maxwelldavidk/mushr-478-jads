@@ -1,3 +1,6 @@
+from functools import lru_cache
+
+@lru_cache(maxsize=None)
 def compute_fibonacci(n):
     """Return the nth Fibonacci number.
 
@@ -13,5 +16,10 @@ def compute_fibonacci(n):
     3
     """
     # BEGIN QUESTION 1.1
-    "*** REPLACE THIS LINE ***"
+    
+    if (n < 2):
+        return n
+    else:
+        return compute_fibonacci(n - 1) + compute_fibonacci(n - 2)
+
     # END QUESTION 1.1
