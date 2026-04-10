@@ -52,7 +52,7 @@ class PoseListener:
         # import it at the top! If the message type from `rostopic info` is
         # "X_msgs/Y", the Python import would be "from X_msgs.msg import Y".
         # BEGIN QUESTION 2.3
-        self.subscriber = rospy.Subscriber("/car/pose", PoseStamped, self.callback)
+        self.subscriber = rospy.Subscriber("/car/car_pose", PoseStamped, self.callback)
         # END QUESTION 2.3
 
     def callback(self, msg):

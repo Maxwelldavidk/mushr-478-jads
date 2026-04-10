@@ -48,5 +48,14 @@ if __name__ == "__main__":
     # Use norm_numpy to compute the distance from the origin over time. Then,
     # plot the distance over time as a line chart and save the plot.
     # BEGIN QUESTION 2.5
-    "*** REPLACE THIS LINE ***"
+    
+    distances = norm_numpy(locations)
+
+    plt.figure()
+    plt.plot(distances)
+    plt.title("Distance from Origin Over Time")
+    plt.xlabel("Time Step")
+    plt.ylabel("Distance (m)")
+    plt.savefig("distances.png")
+
     # END QUESTION 2.5
