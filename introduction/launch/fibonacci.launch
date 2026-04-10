@@ -36,7 +36,8 @@
             using the launch file argument from above.
         -->
 	<!-- BEGIN QUESTION 1.3 -->
-	<!-- REPLACE THIS LINE -->
+    <param name="output_topic" value="$(arg fibonacci_output_topic)" />
+    <param name="fibonacci_index" value="$(arg index)" />
 	<!-- END QUESTION 1.3 -->
     </node>
 </launch>

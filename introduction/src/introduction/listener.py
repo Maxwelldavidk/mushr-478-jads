@@ -17,7 +17,11 @@ def norm_python(data):
     n, d = data.shape
     norm = np.zeros(n)
     # BEGIN QUESTION 2.1
-    "*** REPLACE THIS LINE ***"
+    for i in range(n):
+        temp = 0
+        for j in range(d):
+            temp += data[i][j] ** 2
+        norm[i] = temp ** 0.5
     # END QUESTION 2.1
     return norm
 
@@ -33,7 +37,7 @@ def norm_numpy(data):
     # You can call np.sqrt, np.sum, np.square, etc.
     # Hint: you may find the `axis` parameter useful.
     # BEGIN QUESTION 2.2
-    "*** REPLACE THIS LINE ***"
+    return np.sqrt(np.sum(data ** 2, axis=1))
     # END QUESTION 2.2
 
 
@@ -49,7 +53,6 @@ class PoseListener:
         # import it at the top! If the message type from `rostopic info` is
         # "X_msgs/Y", the Python import would be "from X_msgs.msg import Y".
         # BEGIN QUESTION 2.3
-        "*** REPLACE THIS LINE ***"
         self.subscriber = None
         # END QUESTION 2.3
 
