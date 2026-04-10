@@ -2,9 +2,8 @@ import numpy as np
 import rospy
 
 # BEGIN QUESTION 2.3
-"*** REPLACE THIS LINE ***"
+from geometry_msgs.msg import PoseStamped
 # END QUESTION 2.3
-
 
 def norm_python(data):
     """Compute the norm for each row of a numpy array using Python for loops.
@@ -37,7 +36,7 @@ def norm_numpy(data):
     # You can call np.sqrt, np.sum, np.square, etc.
     # Hint: you may find the `axis` parameter useful.
     # BEGIN QUESTION 2.2
-    return np.sqrt(np.sum(data ** 2, axis=1))
+    return np.sqrt(np.sum(np.square(data), axis=1))
     # END QUESTION 2.2
 
 
@@ -53,7 +52,7 @@ class PoseListener:
         # import it at the top! If the message type from `rostopic info` is
         # "X_msgs/Y", the Python import would be "from X_msgs.msg import Y".
         # BEGIN QUESTION 2.3
-        self.subscriber = None
+        self.subscriber = rospy.Subscriber("/car/pose", PoseStamped, self.callback)
         # END QUESTION 2.3
 
     def callback(self, msg):
@@ -65,7 +64,7 @@ class PoseListener:
 
         # Extract and store the x and y position from the message data
         # BEGIN QUESTION 2.4
-        "*** REPLACE THIS LINE ***"
+        self.storage.append((msg.pose.position.x, msg.pose.position.y))
         # END QUESTION 2.4
         if len(self.storage) == self.size:
             self.done = True
