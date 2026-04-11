@@ -46,5 +46,6 @@ def increment_rows_with_odd_first_element(data):
            [16, 17, 18]])
     """
     # BEGIN QUESTION 3.2
+    # increments the first element in each row by 1 if it is odd
     data[data[:, 0] % 2 == 1] += 1
     # END QUESTION 3.2

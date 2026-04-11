@@ -13,13 +13,18 @@ def norm_python(data):
     >>> norm_python(data)
     array([ 5., 13.])
     """
+    #n = num rows
+    #d = num cols
+    # each vector is in row n
     n, d = data.shape
     norm = np.zeros(n)
     # BEGIN QUESTION 2.1
     for i in range(n):
         temp = 0
+        // square each element in the vector
         for j in range(d):
             temp += data[i][j] ** 2
+        // take the square root of the sum
         norm[i] = temp ** 0.5
     # END QUESTION 2.1
     return norm
@@ -36,6 +41,7 @@ def norm_numpy(data):
     # You can call np.sqrt, np.sum, np.square, etc.
     # Hint: you may find the `axis` parameter useful.
     # BEGIN QUESTION 2.2
+    # axis=1: x axis
     return np.sqrt(np.sum(np.square(data), axis=1))
     # END QUESTION 2.2
 
@@ -52,6 +58,7 @@ class PoseListener:
         # import it at the top! If the message type from `rostopic info` is
         # "X_msgs/Y", the Python import would be "from X_msgs.msg import Y".
         # BEGIN QUESTION 2.3
+        # params are topic's name, message type, and callback function respectively
         self.subscriber = rospy.Subscriber("/car/car_pose", PoseStamped, self.callback)
         # END QUESTION 2.3
 
