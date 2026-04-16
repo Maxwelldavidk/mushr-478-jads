@@ -21,10 +21,10 @@ def norm_python(data):
     # BEGIN QUESTION 2.1
     for i in range(n):
         temp = 0
-        // square each element in the vector
+        # square each element in the vector
         for j in range(d):
             temp += data[i][j] ** 2
-        // take the square root of the sum
+        # take the square root of the sum
         norm[i] = temp ** 0.5
     # END QUESTION 2.1
     return norm
