@@ -1,11 +1,11 @@
 # Parameters for your particle filter
 
 motion_params:
-  vel_std:    0.05
-  delta_std:  0.5
-  x_std:      0.05
-  y_std:      0.05
-  theta_std:  0.05
+  vel_std:    0.03
+  delta_std:  0.20
+  x_std:      0.02
+  y_std:      0.02
+  theta_std:  0.02
 
 sensor_params:
   hit_std:    1.0

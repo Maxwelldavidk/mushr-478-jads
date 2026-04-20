@@ -64,8 +64,25 @@ class KinematicCarMotionModel:
             M x 3 np.array, where the three columns are dx, dy, dtheta
         """
         # BEGIN QUESTION 1.1
-        "*** REPLACE THIS LINE ***"
-        return np.zeros_like(states, dtype=float)
+        #Pulling out the components o the states and controls
+        theta = states[:, 2]
+        vel = controls[:, 0]
+        delta = controls[:, 1]
+        dx = np.zeros(states.shape[0], dtype = float)
+        dy = np.zeros(states.shape[0], dtype = float)
+        dtheta = np.zeros(states.shape[0], dtype = float)
+        straight = np.abs(delta) < delta_threshold
+        turning = np.abs(delta) > delta_threshold
+        # kinematic equation for going straight
+        dx[straight] = vel[straight] * np.cos(theta[straight]) * dt
+        dy[straight] = vel[straight] * np.sin(theta[straight]) * dt
+        dtheta[straight] = 0
+        # kinematic equation for turning
+        dtheta[turning] = vel[turning] * np.tan(delta[turning]) * dt / self.car_length
+        dx[turning] = self.car_length * (np.sin(theta[turning] + dtheta[turning]) - np.sin(theta[turning])) / np.tan(delta[turning])
+        dy[turning] = self.car_length * (- np.cos(theta[turning] + dtheta[turning]) + np.cos(theta[turning])) / np.tan(delta[turning])
+        #return the changes in state as the M x 3 np.array
+        return np.stack((dx, dy, dtheta), axis = 1)
         # END QUESTION 1.1
 
     def apply_motion_model(self, states, vel, delta, dt):
@@ -93,7 +110,22 @@ class KinematicCarMotionModel:
 
         # Hint: you may find the np.random.normal function useful
         # BEGIN QUESTION 1.2
-        "*** REPLACE THIS LINE ***"
+        # Sample the noisy controls
+        noisy_vel = np.random.normal(loc = vel, scale = self.vel_std, size = n_particles)
+        noisy_delta = np.random.normal(loc = delta, scale =self.delta_std, size = n_particles)
+        noisy_controls = np.stack([noisy_vel, noisy_delta], axis = 1)
+        # compute the changes in state using the noisy controls
+        changes = self.compute_changes(states, noisy_controls, dt)
+        # add the changes to the state
+        states += changes
+        # add noise to the state
+        states[:, 0] += np.random.normal(loc = 0, scale = self.x_std, size = n_particles)
+        states[:, 1] += np.random.normal(loc = 0, scale = self.y_std, size = n_particles)
+        states[:, 2] += np.random.normal(loc = 0, scale = self.theta_std, size = n_particles)
+        # normalize theta for [-pi, pi]
+        states[:, 2] = (states[:, 2] + np.pi) % (2 * np.pi) - np.pi
+        # edge case where (-pi, pi] normalization results in -pi, but we want pi instead
+        states[states[:, 2] <= -np.pi, 2] += 2* np.pi
         # END QUESTION 1.2
 
 
