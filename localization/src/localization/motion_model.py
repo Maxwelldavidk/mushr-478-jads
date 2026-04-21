@@ -110,9 +110,10 @@ class KinematicCarMotionModel:
 
         # Hint: you may find the np.random.normal function useful
         # BEGIN QUESTION 1.2
-        # Sample the noisy controls
+        # Sample the noisy controls: np.random.normal(loc = the mean or nominal value, scale = std dev or width of the distribution, size = number o fsamples to draw)
         noisy_vel = np.random.normal(loc = vel, scale = self.vel_std, size = n_particles)
         noisy_delta = np.random.normal(loc = delta, scale =self.delta_std, size = n_particles)
+        # Stack the noisy controls into an M x 2 np.array, where the first column is the noisy velocity and the second column is the noisy steering angle
         noisy_controls = np.stack([noisy_vel, noisy_delta], axis = 1)
         # compute the changes in state using the noisy controls
         changes = self.compute_changes(states, noisy_controls, dt)
