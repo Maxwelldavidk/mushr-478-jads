@@ -44,7 +44,18 @@ class ParticleInitializer:
         n_particles = particles.shape[0]
         # Hint: use utils.quaternion_to_angle to compute the orientation theta.
         # BEGIN QUESTION 3.1
-        "*** REPLACE THIS LINE ***"
+        # using the hint we sample x, y, and theta form the normal distribution. (.normal draws samples from a normal guassian dist)
+        theta = utils.quaternion_to_angle(msg.orientation)
+        x = np.random.normal(loc = msg.position.x, scale = self.x_std, size = n_particles)
+        y = np.random.normal(loc = msg.position.y, scale = self.y_std, size = n_particles)
+        theta = np.random.normal(loc = theta, scale = self.theta_std, size = n_particles)
+        # Set the columns of the particle matrix to x, y, theta sample values.
+        particles[:, 0] = x
+        particles[:, 1] = y
+        particles[:, 2] = theta
+        # setting all weight to be 1/n particels so all samples are equally likely.
+        weights[:] = 1 / n_particles 
+
         # END QUESTION 3.1
 
 

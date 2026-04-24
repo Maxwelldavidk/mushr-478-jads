@@ -39,5 +39,26 @@ class LowVarianceSampler:
         # https://docs.python.org/3/library/threading.html#using-locks-conditions-and-semaphores-in-the-with-statement
         with self.state_lock:
             # BEGIN QUESTION 3.2
-            "*** REPLACE THIS LINE ***"
+            # total num of particles. 
+            M = self.n_particles
+            # Make a new partilce array as same shape and fill with 0
+            new_particles = np.zeros(self.particles.shape)
+            # Pick a random starting point uniformly.
+            r = np.random.uniform(0, 1 / M)
+            # start the weights at the first particle
+            weight = self.weights[0]
+            # Loop through all particles. The next r + n/M step. While not in the correct weight interval, advance i, add the next particles weight to the sum, ounce in the 
+            # correct interval copy particle i into row m of the new particel. 
+            i = 0
+            for m in range (M):
+                next_r = r + m / M
+                while next_r > weight:
+                    i += 1
+                    weight += self.weights[i]
+
+                new_particles[m] = self.particles[i]
+            # Overwrite the old particle array inplace with the re sampled particle
+            self.particles[:] = new_particles
+            # reset all weights
+            self.weights[:] = 1.0 / M
             # END QUESTION 3.2

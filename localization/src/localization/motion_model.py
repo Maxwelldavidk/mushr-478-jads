@@ -68,11 +68,12 @@ class KinematicCarMotionModel:
         theta = states[:, 2]
         vel = controls[:, 0]
         delta = controls[:, 1]
+        # creating change in x, y, theta vars the length of states.
         dx = np.zeros(states.shape[0], dtype = float)
         dy = np.zeros(states.shape[0], dtype = float)
         dtheta = np.zeros(states.shape[0], dtype = float)
         straight = np.abs(delta) < delta_threshold
-        turning = np.abs(delta) > delta_threshold
+        turning = np.abs(delta) >= delta_threshold
         # kinematic equation for going straight
         dx[straight] = vel[straight] * np.cos(theta[straight]) * dt
         dy[straight] = vel[straight] * np.sin(theta[straight]) * dt
