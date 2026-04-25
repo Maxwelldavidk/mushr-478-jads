@@ -82,3 +82,7 @@ Include your tuned sensor model likelihood plot for the robot positioned at stat
 5: 
 
 ![maze_0 tuned sensor model](./maze_0.png)
+
+6: 
+
+![60second drive](./60sec_Drive.png)
