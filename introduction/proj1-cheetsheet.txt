@@ -1,0 +1,214 @@
+CSE 478 Project 1 + Lab Cheat Sheet
+
+Group info
+- Workstation: Jicama
+- Car: 2933
+
+Lab workstation login
+- Username: capstone
+- Password: on Ed and on the whiteboard in the lab
+
+Car info
+- Hostname format: mushr-<TAG>.cs.washington.edu
+- Username: mushr
+- Password: prl_robot
+- For your car, likely: mushr-2933.cs.washington.edu
+
+MAIN HABIT
+For every new terminal, run:
+cd ~/mushr_ws
+source /opt/ros/noetic/setup.bash
+source ~/dependencies_ws/devel/setup.bash
+source ~/mushr_ws/devel/setup.bash
+
+-----------------------------------
+1. FIRST-TIME WORKSTATION SETUP
+-----------------------------------
+source ~/dependencies_ws/devel/setup.bash
+mkdir -p ~/mushr_ws/src && cd ~/mushr_ws/src
+git clone git@gitlab.cs.washington.edu:cse478/26sp/mushr-478-jads.git mushr478
+cd ~/mushr_ws
+catkin build
+source ~/mushr_ws/devel/setup.bash
+
+Check repo:
+ls ~/mushr_ws/src/mushr478/
+Expected:
+cse478  introduction  README.md
+
+-----------------------------------
+2. SIMULATOR / RVIZ BASICS
+-----------------------------------
+Start simulator:
+cd ~/mushr_ws
+source /opt/ros/noetic/setup.bash
+source ~/dependencies_ws/devel/setup.bash
+source ~/mushr_ws/devel/setup.bash
+roslaunch cse478 teleop.launch
+
+Useful checks in another sourced terminal:
+rosnode list
+rostopic list
+rostopic echo /car/odom
+
+Open RViz:
+rosrun rviz rviz -d ~/mushr_ws/src/mushr478/cse478/config/default.rviz
+
+Change map:
+roslaunch cse478 teleop.launch map:='$(find cse478)/maps/cse2_2.yaml'
+
+-----------------------------------
+3. Q1 FIBONACCI
+-----------------------------------
+Q1.1 file:
+~/mushr_ws/src/mushr478/introduction/src/introduction/fibonacci.py
+
+Run test from:
+cd ~/mushr_ws/src/mushr478/introduction
+python3 test/fibonacci.py
+
+Q1.2 file:
+~/mushr_ws/src/mushr478/introduction/scripts/fibonacci
+
+Test:
+rostest introduction fibonacci_small.test
+
+Q1.3 file:
+~/mushr_ws/src/mushr478/introduction/launch/fibonacci.launch
+
+Test:
+rostest introduction fibonacci_launch.test
+
+Live demo after tests:
+Terminal 1:
+roscore
+
+Terminal 2:
+rostopic echo /introduction/fib_output
+
+Terminal 3:
+roslaunch introduction fibonacci.launch
+roslaunch introduction fibonacci.launch index:=20
+
+-----------------------------------
+4. Q2 POSELISTENER / NORMS
+-----------------------------------
+Main file:
+~/mushr_ws/src/mushr478/introduction/src/introduction/listener.py
+
+Q2.1 + Q2.2 test from:
+cd ~/mushr_ws/src/mushr478/introduction
+python3 test/norms.py
+
+Timing comparison:
+python3 scripts/compare_norm
+Save figure as runtime_comparison.png
+
+Q2.3 find topic/type:
+Start simulator, then in another sourced terminal:
+rostopic list
+rostopic info /car/car_pose
+
+Known answers:
+- Topic: /car/car_pose
+- Type: geometry_msgs/PoseStamped
+
+Import:
+from geometry_msgs.msg import PoseStamped
+
+Subscriber line:
+self.subscriber = rospy.Subscriber("/car/car_pose", PoseStamped, self.callback)
+
+Q2.4 test:
+rostest introduction pose_listener.test
+
+Q2.5 step order:
+1. Start teleop with sandbox map:
+roslaunch cse478 teleop.launch map:='$(find mushr_sim)/maps/sandbox.yaml'
+
+2. In another sourced shell, run path publisher with a plan file:
+roslaunch introduction path_publisher.launch plan_file:='$(find introduction)/plans/figure_8.txt'
+
+3. Open RViz if you want to watch:
+rosrun rviz rviz -d ~/mushr_ws/src/mushr478/cse478/config/default.rviz
+
+4. Run again with:
+roslaunch introduction path_publisher.launch plan_file:='$(find introduction)/plans/tight_figure_8.txt'
+
+IMPORTANT:
+Your current scripts/pose_listener saves images to:
+/home/robot/.ros/locations.png
+/home/robot/.ros/distances.png
+
+Check them with:
+ls /home/robot/.ros/locations.png /home/robot/.ros/distances.png
+
+If you need separate copies for figure_8 and tight_figure_8, rename/copy them before the second run.
+
+-----------------------------------
+5. Q3 INDEXING
+-----------------------------------
+File:
+~/mushr_ws/src/mushr478/introduction/src/introduction/indexing.py
+
+Test from:
+cd ~/mushr_ws/src/mushr478/introduction
+python3 test/indexing.py
+
+-----------------------------------
+6. WRITEUP / DELIVERABLES
+-----------------------------------
+Writeup file:
+~/mushr_ws/src/mushr478/introduction/writeup/README.md
+
+Need to include:
+- Definitions of node, topic, publisher, subscriber
+- Purpose of a launch file
+- RViz screenshot showing new map
+- runtime_comparison.png
+- locations.png and distances.png for figure_8.txt
+- locations.png and distances.png for tight_figure_8.txt
+
+-----------------------------------
+7. GIT SUBMISSION
+-----------------------------------
+cd ~/mushr_ws/src/mushr478/
+git diff
+git add .
+git commit -m "Finished Project 1"
+git push
+git tag submit-proj1
+git push --tags
+
+-----------------------------------
+8. REAL CAR IN LAB
+-----------------------------------
+On workstation terminal:
+export ROS_MASTER_URI=http://<robot_hostname>:11311
+ssh mushr@<robot_hostname> -X
+
+On the car:
+mushr_noetic
+cd ~/catkin_ws
+catkin build
+source ~/catkin_ws/devel/setup.bash
+roslaunch mushr_base teleop.launch
+
+Teleop:
+- Hold L1 for teleop
+- Hold R1 for autonomous operation
+
+-----------------------------------
+9. FASTEST STARTUP CHECKLIST
+-----------------------------------
+1. Log into workstation adonis as capstone
+2. Open terminal
+3. Run:
+   cd ~/mushr_ws
+   source /opt/ros/noetic/setup.bash
+   source ~/dependencies_ws/devel/setup.bash
+   source ~/mushr_ws/devel/setup.bash
+4. Go to intro package:
+   cd ~/mushr_ws/src/mushr478/introduction
+5. Run the test or question command you need
+

@@ -77,7 +77,27 @@ class SingleBeamSensorModel:
         # Use obs_r and sim_r to vectorize the sensor model precomputation.
         diff = sim_r - obs_r
         # BEGIN QUESTION 2.1
-        "*** REPLACE THIS LINE ***"
+        # creates the individual probability components for each of the four cases in the sensor model.
+        p_hit = np.zeros(prob_table.shape, dtype = float)
+        if self.hit_std > 0:
+            p_hit = (1.0 / np.sqrt(2.0 * np.pi * self.hit_std ** 2) * np.exp(-0.5 * (diff / self.hit_std) ** 2))
+        # p_short uses a conditional to apply the formula only where the observed measurement is less than the simulated measurement and greater than 0. It uses a zero matrix then applies boolean logical indexing.
+        p_short = np.zeros(prob_table.shape, dtype = float)
+        p_short_cond = np.logical_and(sim_r > 0, obs_r < sim_r)
+        p_short[p_short_cond] = 2.0 * ((sim_r[p_short_cond] - obs_r[p_short_cond]) / (sim_r[p_short_cond] ** 2))
+        # p_max uses conditioning to set the probability to 1 where the observed measurement is equal to the maximum range, and 0 elsewhere.
+        p_max = np.where(obs_r == max_r, 1.0, 0.0)
+        # p_rand uses conditioning to set the probability to a uniform distribution over the range where the observed measurement is less than the maximum range and greater than 0, and 0 elsewhere.
+        p_rand = np.zeros(prob_table.shape, dtype = float)
+        if max_r > 0:
+            p_rand[obs_r < max_r] = 1.0 / max_r
+        # The prob_table is the product of the individual components and weited by there z values, then normalized.
+        prob_table = self.z_short * p_short + self.z_max * p_max + self.z_rand * p_rand + self.z_hit * p_hit
+        # For an unsuccessful measurement, it returns NaN or 0
+        column_sums = np.zeros(prob_table.shape, dtype = float)
+        column_sums = np.sum(prob_table, axis = 0, keepdims = True)
+        prob_table = prob_table / column_sums
+
         # END QUESTION 2.1
 
         return prob_table
