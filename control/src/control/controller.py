@@ -77,10 +77,18 @@ class BaseController(object):
             # Hint: compute all the distances from the current state to the
             # path's waypoints. You may find the `argmin` method useful.
             # BEGIN QUESTION 1.1
-            "*** REPLACE THIS LINE ***"
-            raise NotImplementedError
-            # END QUESTION 1.1
-            return len(path_xytv) - 1
+            pose_xy = pose[:2] # x and y coordinates of car's position
+            path_xy = path_xytv[:, :2] # x and y coordinates of path's points
+            difference = path_xy - pose_xy # differences from car to path's points
+            distances = np.sqrt(difference[:,0]**2 + difference[:,1]**2) # distances from car to path's points
+            min_distances = np.argmin(distances) # smallest distance: find closest path point
+
+            next_dist = distances[min_distances:] # list of distances past minimum distances, including minimum distance
+            look_ahead = np.where(next_dist >= distance_lookahead)[0] # list of distances that are greater than our lookahead distance
+            if len(look_ahead) == 0:
+                return len(path_xytv) - 1
+        
+            return look_ahead[0] + min_distances 
 
     def get_error(self, pose, reference_xytv):
         """Compute the error vector.
