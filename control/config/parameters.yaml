@@ -1,6 +1,6 @@
 pid:
-  kp: 0.5
-  kd: 0.5
+  kp: 0.3
+  kd: 0.3
 pp:
   distance_lookahead: 0.1
 mpc:

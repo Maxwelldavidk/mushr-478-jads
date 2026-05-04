@@ -38,5 +38,11 @@ class PurePursuitController(BaseController):
         """
         # BEGIN QUESTION 3.1
         "*** REPLACE THIS LINE ***"
-        raise NotImplementedError
+        velocity = reference_xytv[3]
+        e_x = error[0]
+        e_y = error[1]
+        numerator = 2 * self.car_length * e_y
+        denominator = e_x**2 + e_y**2
+        delta = np.arctan(numerator / denominator)
+        return np.array([velocity, delta])
         # END QUESTION 3.1

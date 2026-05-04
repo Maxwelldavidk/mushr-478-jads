@@ -16,7 +16,22 @@ def compute_position_in_frame(p, frame):
     """
     # BEGIN QUESTION 1.2
     "*** REPLACE THIS LINE ***"
-    raise NotImplementedError
+    x = p[0]
+    y = p[1]
+    heading = p[2]
+
+    x_frame = frame[0]
+    y_frame = frame[1]
+    heading_frame = frame[2]
+
+    dx = x - x_frame
+    dy = y - y_frame
+
+    new_x = dx * np.cos(heading_frame) + dy * np.sin(heading_frame)
+    new_y = dx * -np.sin(heading_frame) + dy * np.cos(heading_frame)
+
+    return np.array([new_x, new_y])
+
     # END QUESTION 1.2
 
 
@@ -78,9 +93,34 @@ class BaseController(object):
             # path's waypoints. You may find the `argmin` method useful.
             # BEGIN QUESTION 1.1
             "*** REPLACE THIS LINE ***"
-            raise NotImplementedError
-            # END QUESTION 1.1
+            # current position (x, y) coordinate from pose (x, y, heading)
+            curr_pose_xy = pose[:2]
+            # current refernce path position coordinates from path_xytv (x, y, theta, velocity)
+            ref_path_xy = path_xytv[:, :2]
+            # measure the differnece the referance points and the cars position state point
+            difference =  ref_path_xy -  curr_pose_xy
+            # measure the distances for all referance points to the position of the car
+            distances = np.sqrt(difference[:, 0]**2 + difference[:, 1]**2)
+            # find the index of the closest distance in the array of distances
+            closest_dist_index = np.argmin(distances)
+            # slice the original array of distance keeping the smallest distance going forward
+            next_distances = distances[closest_dist_index:]
+            # located the valid distances in the sliced next_distance array
+            #valid_dist_index = np.where(next_distances >= distance_lookahead)[0]
+            # if there are no valid distances return the we return the final state.
+            #if len(valid_dist_index) == 0:
+                #return len(path_xytv) - 1
+            # we have the valid distance index location and we need to add it back to the original distances array, we know we started at the closest distance index but found the correct index at valid_dist_index.
+            #return closest_dist_index + valid_dist_index[0]
+            for i in range(len(next_distances)):
+                if next_distances[i] >= distance_lookahead:
+                    return closest_dist_index + i
             return len(path_xytv) - 1
+
+            
+
+            # END QUESTION 1.1
+            #return len(path_xytv) - 1
 
     def get_error(self, pose, reference_xytv):
         """Compute the error vector.
