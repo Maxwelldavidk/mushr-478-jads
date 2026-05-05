@@ -18,7 +18,6 @@ def compute_position_in_frame(p, frame):
     "*** REPLACE THIS LINE ***"
     x = p[0]
     y = p[1]
-    heading = p[2]
 
     x_frame = frame[0]
     y_frame = frame[1]
@@ -115,12 +114,11 @@ class BaseController(object):
             for i in range(len(next_distances)):
                 if next_distances[i] >= distance_lookahead:
                     return closest_dist_index + i
-            return len(path_xytv) - 1
-
-            
+            return len(path_xytv) - 1            
 
             # END QUESTION 1.1
             #return len(path_xytv) - 1
+
 
     def get_error(self, pose, reference_xytv):
         """Compute the error vector.

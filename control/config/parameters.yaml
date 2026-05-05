@@ -5,5 +5,5 @@ pp:
   distance_lookahead: 1.0
 mpc:
   K: 9
-  T: 5
+  T: 7
   distance_lookahead: 0.3
