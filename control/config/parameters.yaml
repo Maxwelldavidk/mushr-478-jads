@@ -4,6 +4,6 @@ pid:
 pp:
   distance_lookahead: 1.0
 mpc:
-  K: 2
-  T: 1
-  distance_lookahead: 0.1
+  K: 9
+  T: 5
+  distance_lookahead: 0.3

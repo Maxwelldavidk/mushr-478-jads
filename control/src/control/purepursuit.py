@@ -47,9 +47,9 @@ class PurePursuitController(BaseController):
         # numerator is 2 * car_length * e_y, denominator is e_x^2 + e_y^2, delta is arctan(numerator / denominator).
         numerator = 2 * self.car_length * e_y
         denominator = e_x**2 + e_y**2
-        if denominator == 0:
-            raise ValueError("Denominator in Pure Pursuit control law is zero.")
-        else:
+        if denominator == 0.0:
+            delta = 0.0
+        else: 
             delta = np.arctan(numerator / denominator)
         # return np.array of velocity and delta as a two element array.
         return np.array([velocity, delta])
