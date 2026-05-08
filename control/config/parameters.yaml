@@ -3,7 +3,13 @@ pid:
   kd: 0.3
 pp:
   distance_lookahead: 0.5
+
 mpc:
+  K: 8
+  T: 15
+  distance_lookahead: 1
+
+mpc-actual:
   K: 9
   T: 7
   distance_lookahead: 0.3
