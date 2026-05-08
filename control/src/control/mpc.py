@@ -42,7 +42,9 @@ class ModelPredictiveController(BaseController):
             "map_info",
             "use_costmap"
         }
-
+        # cant get past this error, ask TA.
+        # File "/home/robot/mushr_ws/src/mushr478/control/src/control/mpc.py", line 56, in __init__ if self.use_costmap:
+        kwargs.setdefault("use_costmap", False)
         if not self.__properties.issubset(set(kwargs)):
             raise ValueError(
                 "Invalid keyword argument provided",
@@ -91,7 +93,14 @@ class ModelPredictiveController(BaseController):
         # putting the sampled steering angles into controls.
         # BEGIN QUESTION 4.1
         "*** REPLACE THIS LINE ***"
-        raise NotImplementedError
+        # Evenly span the steering angle range
+        delta_samples = np.linspace(self.min_delta, self.max_delta, self.K)
+        # for all k, for all t, insert at velocity all delta samples. delta sample is a K x 1 and so broadcasting allows for K x T array using np.newaxis. I lefr original 4 loop for clarity.
+        controls[:, :, 1] = delta_samples[:, np.newaxis]
+        #for k in range(self.K):
+            #for t in range(self.T):
+                #
+                # controls[k, t, 1] = delta_samples[k]
         # END QUESTION 4.1
         return controls
 
@@ -126,7 +135,15 @@ class ModelPredictiveController(BaseController):
 
         # BEGIN QUESTION 4.2
         "*** REPLACE THIS LINE ***"
-        raise NotImplementedError
+        for t in range(self.T):
+            # collect the t'th state across all K rollouts
+            current_states = rollouts[:, t, :]
+            # collct the t'th control across all K rollouts.
+            controls_t = controls[:, t, :]
+            # compute the changes across all K rollouts.
+            changes = self.motion_model.compute_changes(current_states, controls_t, dt)
+            # update the t+1'th state across all K rollouts
+            rollouts[:, t + 1, :] = current_states + changes
         # END QUESTION 4.2
         return rollouts
 
@@ -150,7 +167,15 @@ class ModelPredictiveController(BaseController):
         # the reference state
         # BEGIN QUESTION 4.3
         "*** REPLACE THIS LINE ***"
-        raise NotImplementedError
+        # final x, y coordinates of the K rollouts
+        final_xy = rollouts[:, -1, :2]
+        # x, y coordinates of the reference state
+        reference_xy = reference_xyt[:2]
+        # compute the norm of the difference between the final and reference states
+        distance = np.linalg.norm(final_xy - reference_xy, axis=1)
+        # weight the distance by self.error_w to get the cost for each rollout
+        costs = self.error_w * distance
+        return costs
         # END QUESTION 4.3
 
     def compute_collision_cost(self, rollouts, _):
@@ -176,11 +201,21 @@ class ModelPredictiveController(BaseController):
         # results (with shape N x 1). You may find the np.reshape function
         # useful for converting the rollout states into the expected format and
         # the collision check results back into a useful shape. You should only
-        # need one call to check_collisions_in_map.
+        # need one call to check_collisions_in_map. 
 
         # BEGIN QUESTION 4.3
         "*** REPLACE THIS LINE ***"
-        raise NotImplementedError
+        # flatten the K rollouts and their T+1 states into one N x 3 array so check_collisions_in_map can check every state in one call..
+        reshape_rollouts = rollouts.reshape(len(rollouts) * (self.T + 1), 3)
+        # pass the reshaped rollouts into check_collisions_in_map to get a 1D array of collision results for all states in all rollouts
+        collisions = self.check_collisions_in_map(reshape_rollouts)
+        # reshape the collisions back to the original (K, T + 1).
+        collisions = collisions.reshape((self.K, self.T + 1))
+        # collision is now the shape (K, T + 1) so we sum over all states in each row to get the total collisions in each rollout.
+        counts = np.sum(collisions, axis=1)
+        # cumulative cost is the number of collisions in each rollout multiplied by self.collision_w
+        cumulative_cost = self.collision_w * counts
+        return cumulative_cost
         # END QUESTION 4.3
 
     def compute_rollout_cost(self, rollouts, reference_xyt):
@@ -232,11 +267,13 @@ class ModelPredictiveController(BaseController):
 
         # BEGIN QUESTION 4.4
         "*** REPLACE THIS LINE ***"
-        rollouts = np.zeros((self.K, self.T + 1, 3))
+        # collect the curr position and all K sampled control sequences
+        rollouts = self.get_rollout(pose, self.sampled_controls)
         # END QUESTION 4.4
         # BEGIN QUESTION 4.4
         "*** REPLACE THIS LINE ***"
-        costs = np.zeros(self.K)
+        # compute the rolout cost for all rollouts
+        costs = self.compute_rollout_cost(rollouts, reference_xytv[:3])
         # END QUESTION 4.4
 
         # Set the controller's rollouts and costs (for visualization purposes).
@@ -248,7 +285,10 @@ class ModelPredictiveController(BaseController):
         # reference velocity has already been stored in self.sampled_controls.
         # BEGIN QUESTION 4.4
         "*** REPLACE THIS LINE ***"
-        raise NotImplementedError
+        # find the minimum cost index
+        min_cost_idx = np.argmin(costs)
+        # return the first control action from the rollout sequence
+        return self.sampled_controls[min_cost_idx, 0 , :]
         # END QUESTION 4.4
 
 

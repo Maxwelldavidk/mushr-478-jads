@@ -38,5 +38,19 @@ class PurePursuitController(BaseController):
         """
         # BEGIN QUESTION 3.1
         "*** REPLACE THIS LINE ***"
-        raise NotImplementedError
+
+        # velovity is from the reference velocity
+        velocity = reference_xytv[3]
+        # e_x is the first element of the error vector, e_y is the second element of the error vector.
+        e_x = error[0]
+        e_y = error[1]
+        # numerator is 2 * car_length * e_y, denominator is e_x^2 + e_y^2, delta is arctan(numerator / denominator).
+        numerator = 2 * self.car_length * e_y
+        denominator = e_x**2 + e_y**2
+        if denominator == 0.0:
+            delta = 0.0
+        else: 
+            delta = np.arctan(numerator / denominator)
+        # return np.array of velocity and delta as a two element array.
+        return np.array([velocity, delta])
         # END QUESTION 3.1
