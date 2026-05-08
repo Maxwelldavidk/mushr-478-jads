@@ -2,5 +2,4 @@
 
 source ~/mushr_ws/devel/setup.bash
 
-roslaunch localization particle_filter_teleop_sim.launch \
-map:='$(find cse478)/maps/cse2_2.yaml'
+rosrun rviz rviz -d ~/mushr_ws/src/mushr478/cse478/config/default.rviz
