@@ -73,7 +73,7 @@ Include a bag file and a screenshot of rviz for the MPC running on the real car 
 and
 `rosrun control path_sender wave --tf_prefix "car/" --speed 0.5`
 
-![mpc_circle.png](real-car-plots/mpc_circle.png.png)
+![mpc_circle.png](real-car-plots/mpc_circle.png)
 
 All bag files are in the bag_files directory.
 
@@ -81,8 +81,8 @@ All bag files are in the bag_files directory.
 
 Include a bag file and a screenshot of rviz for each controller (pid, pp and mpc) running on the real car. See above for the detailed instructions.
 
-![mpc_circle.png](real-car-plots/mpc_circle.png.png)
-![pid_circle.png](real-car-plots/pid_circle.png.png)
+![mpc_circle.png](real-car-plots/mpc_circle.png)
+![pid_circle.png](real-car-plots/pid_circle.png)
 ![pp_circle.png](real-car-plots/pp_circle.png)
 
 All bag files are in the bag_files directory.
