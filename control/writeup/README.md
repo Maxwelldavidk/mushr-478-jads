@@ -45,7 +45,9 @@ Larger circle radius are easier for the Pure Pursuit controller to track because
 
 Describe the tuning process for the MPC optimization parameters. Justify your final parameters \(K, T\) by including the controller plots for the circle, wave, and saw reference paths on the default sandbox map. What makes the saw path so difficult to track?
 
-TODO
+We tuned the MPC parameters by starting with the initial values (K = 5, T = 10) and incrementally increasing each parameter. We found that increasing K gave the controller more steering angle candidates to choose from, which improved its ability to find a good control action, while increasing T gave the controller a longer planning horizon, which helped it anticipate upcoming turns. We first turned K to make sure our paths were directionally correct then we tuned T to make our paths of acceptable granularity. Through this iterative process, we settled on K = 8 and T = 15. K = 8 provided enough steering sample coverage for good path tracking without excessive computation, and T = 15 gave the controller enough lookahead to anticipate curves while keeping the control frequency high enough for stable operation. The combination of K = 8 and T = 15 produced smooth tracking on the circle and wave paths with good error margins.
+
+The saw path is very difficult for MPC to track because it has sharp, sudden changes in direction (vertices of the sawtooth). Unlike the smooth curves of the circle and wave paths, the saw path's sharp corners require the controller to quickly switch steering direction, which is challenging for a sample-based MPC with a discrete set of steering angle candidates and a fixed horizon. The controller tends to cut the sharp corners because none of the K sampled steering sequences perfectly capture the aggressive steering reversal needed, resulting in larger tracking errors at the vertices.
 
 ![mpc_circle.png](mpc_circle.png)
 ![mpc_wave.png](mpc_wave.png)
@@ -54,8 +56,6 @@ TODO
 ## 7
 
 Include controller plots for two reference paths and slaloms of your choice in the slalom_world map.
-
-TODO
 
 ![slalom1.png](slalom1.png)
 ![slalom2.png](slalom2.png)
