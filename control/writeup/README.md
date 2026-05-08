@@ -30,7 +30,7 @@ We tuned the Pure Pursuit controller by varying the lookahead distance and compa
 
 Include controller plots on the wave path for cases where the lookahead distance is too small/large (pp_small.png, pp_large.png). Explain the resulting Pure Pursuit behavior.
 
-TODO
+Smaller lookahead distances lead to jumpy controls which veer off the path quickly. Larger lookahead distances result in smooth control but corners are cut. Hence, its necessary to choose the appropriate parameter for the control pattern at hand. In other words, we simply find a balance between smoothness and accuracy.
 
 ![pp_small.png](pp_small.png)
 ![pp_large.png](pp_large.png)
@@ -64,7 +64,7 @@ Include controller plots for two reference paths and slaloms of your choice in t
 
 In this project, we asked you to implement a very specific MPC cost function that only includes distance and collision terms (and specific weights for the two terms). What other terms might you include, if you were to customize your cost function? (You don't have to implement this, just describe some ideas.)
 
-TODO
+The main innovation that we propose would be to create candidate curves at each proposal step instead of candidate paths with randomly generated controls that are n units long. Instead of proposing random paths to get to our destination, we just create a bunch of curves (n-degree polynomials or elliptical chords). Our goal would be to choose the points that minimize interference with the terrain/obstacles in our sensor range. This would be easier on our memory constraints, allow for faster collision detection through linear algebra methods, and allow for smoother control that is more suited to the bicycle model. 
 
 ## 9
 
@@ -73,10 +73,17 @@ Include a bag file and a screenshot of rviz for the MPC running on the real car 
 and
 `rosrun control path_sender wave --tf_prefix "car/" --speed 0.5`
 
-DONE
+![mpc_circle.png](real-car-plots/mpc_circle.png.png)
+
+All bag files are in the bag_files directory.
 
 ## 10
 
 Include a bag file and a screenshot of rviz for each controller (pid, pp and mpc) running on the real car. See above for the detailed instructions.
 
-DONE
+![mpc_circle.png](real-car-plots/mpc_circle.png.png)
+![pid_circle.png](real-car-plots/pid_circle.png.png)
+![pp_circle.png](real-car-plots/pp_circle.png)
+
+All bag files are in the bag_files directory.
+
