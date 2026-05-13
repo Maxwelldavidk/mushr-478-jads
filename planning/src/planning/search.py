@@ -87,7 +87,13 @@ def astar(rm, start, goal):
             # necessary to insert this QueueEntry.
             # BEGIN QUESTION 2.1
             "*** REPLACE THIS LINE ***"
-            raise NotImplementedError
+            # compute neighbor's g(n), the cost to come to the neighbor
+            g = 0# fill in
+            # compute neighbor's f: g + h
+            f = 0# fill in
+            # push new queue entry with (f, next(c), neighbor, entry.node, g)
+            queue.push() # fill in
+        
             # END QUESTION 2.1
     raise nx.NetworkXNoPath("Node {} not reachable from {}".format(goal, start))
 
