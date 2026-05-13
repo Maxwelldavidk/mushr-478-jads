@@ -59,7 +59,17 @@ class HaltonSampler(Sampler):
 
         # BEGIN QUESTION 1.1
         "*** REPLACE THIS LINE ***"
-        raise NotImplementedError
+        # set fraction to 1 
+        fraction = 1
+        # set result to 0
+        result = 0
+        # while there is still an index we find the next digit in the base and add it to the result. Then we update the fraction and index for the next iteration.
+        while index > 0:
+            fraction = fraction / base
+            result = result + fraction * (index % base)
+            index = index // base
+        # return the result
+        return result
         # END QUESTION 1.1
 
     def make_base_generator(self, base):
@@ -91,7 +101,18 @@ class HaltonSampler(Sampler):
         # Scale the batch of samples to fit the extents of the space.
         # BEGIN QUESTION 1.1
         "*** REPLACE THIS LINE ***"
-        raise NotImplementedError
+        # Collect all all dimensions upper bounds.
+        upper = self.extents[:, 1]
+        # collect all dimensions lower boudns
+        lower = self.extents[:, 0]
+        # find the range of each dimension
+        coordinate_range = upper - lower
+        # scale the samples to fit the extents of the space and shift them to be within the extents. 
+        # Since extents can reach any range and batch gives the Horton values between a space of 0 and 1, 
+        # we need to scale batch's range to fit extents's range and then shift the samples to be within extents lower and upper bounds
+        batch = coordinate_range * batch + lower
+        # return the batch of the the sccaled samples.
+        return batch
         # END QUESTION 1.1
 
 

@@ -89,7 +89,15 @@ class Roadmap(object):
         # Hint: call the check_edge_validity method from above.
         # BEGIN QUESTION 1.3
         "*** REPLACE THIS LINE ***"
-        raise NotImplementedError
+        # creat a list to coolect valid edges
+        valid_edges = []
+        # iterate through all the weighted edges and check for validity
+        for u, v, length in weighted_edges:
+            if self.check_edge_validity(int(u), int(v)):
+                valid_edges.append((u, v, length))
+        # create the numpy array 
+        weighted_edges = np.array(valid_edges)
+        
         # END QUESTION 1.3
         return weighted_edges
 

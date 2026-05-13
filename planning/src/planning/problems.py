@@ -49,6 +49,13 @@ class PlanarProblem(object):
         # Check that x and y are within the extents of the map.
         # BEGIN QUESTION 1.2
         "*** REPLACE THIS LINE ***"
+        # extents is a 2 column array with column 1 being the lower bound and column 1 being the upper bound
+        valid = (
+            (x >= self.extents[0, 0]) &
+            (x <  self.extents[0, 1]) & # for the upper bounds bust be strictly less than since we have 0 base indexing
+            (y >= self.extents[1, 0]) &
+            (y <  self.extents[1, 1]) 
+        )
         # END QUESTION 1.2
 
         # The units of the state are meters and radians. We need to convert the
@@ -67,6 +74,11 @@ class PlanarProblem(object):
         # the zeroth dimension is the height.
         # BEGIN QUESTION 1.2
         "*** REPLACE THIS LINE ***"
+        coordinates = states.astype(int)   
+        # collect all the coordinates using the valid_bounds boolean array. This give the valid coordinates from within the extents of the map.
+        # then we check that valid coordinates are in the permissable region and return True if no collision and False otherwise.
+        # we then update the valid boolean array to be True for all coordinates tht are not in collision.
+        valid[valid] = self.permissible_region[coordinates[valid, 1], coordinates[valid, 0]]   
         # END QUESTION 1.2
 
         # Convert the units back from pixels to meters for the caller
