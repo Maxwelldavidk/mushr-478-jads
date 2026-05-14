@@ -1,0 +1,14 @@
+python3 scripts/run_search -m test/share/map1.txt -n 25 -r 3.0 --lazy --shortcut --show-edges r2 -s 1 1 -g 7 8
+
+Lazy: True
+Vertices: 27
+Edges: 60
+Running A*
+Path length: 12.960450156532826
+Planning time: 0.0026235580444335938
+Edges evaluated: 14
+Shortcutting A* path
+Shortcut length: 12.591492106547538
+Shortcut time: 0.01565837860107422
+
+explanation:

@@ -45,7 +45,7 @@ class Roadmap(object):
         self.edges_evaluated = 0
         self.graph, self.vertices, self.weighted_edges = self.construct()
 
-    def heuristic(self, n1, n2):
+    def heuristic(self, n1, n2): # q 2.3
         """Compute the heuristic between two nodes in the roadmap.
 
         Args:
@@ -312,7 +312,7 @@ class Roadmap(object):
         self.weighted_edges = np.vstack([self.weighted_edges, weighted_edges])
         return index
 
-    def compute_path_length(self, vpath):
+    def compute_path_length(self, vpath): # q 2.3
         """Compute the path length of a sequence of vertices.
 
         Args:

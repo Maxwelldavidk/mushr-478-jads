@@ -142,11 +142,24 @@ def shortcut(rm, vpath, num_trials=100):
         #
         # You may find these Roadmap methods useful: check_edge_validity,
         # heuristic, and compute_path_length.
+
+        # randomly select two indices...
         indices = np.random.choice(len(vpath), size=2, replace=False)
+        # vertex labels
         i, j = np.sort(indices)
+        
         # BEGIN QUESTION 2.3
-        "*** REPLACE THIS LINE ***"
-        raise NotImplementedError
+        if j == i + 1:
+            continue
+        # ...to try and connect. 
+        # Verify that an edge connecting the two vertices would be collision-free, and that
+        if rm.check_edge_validity(vpath[i], vpath[j]):
+        # connecting the two indices would actually be shorter.
+        # (removing bad paths in the middle)
+            if rm.compute_path_length(vpath[i:j+1]) > rm.heuristic(vpath[i], vpath[j]):
+                vpath = vpath[0: i+1] + vpath[j:]
+        
+
         # END QUESTION 2.3
     return vpath
 
