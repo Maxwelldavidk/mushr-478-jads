@@ -86,14 +86,13 @@ def astar(rm, start, goal):
             # However, if the neighbor has already been expanded, it's no longer
             # necessary to insert this QueueEntry.
             # BEGIN QUESTION 2.1
-            "*** REPLACE THIS LINE ***"
             # compute neighbor's g(n), the cost to come to the neighbor
-            g = 0# fill in
-            # compute neighbor's f: g + h
-            f = 0# fill in
-            # push new queue entry with (f, next(c), neighbor, entry.node, g)
-            queue.push() # fill in
-        
+            if not expanded[neighbor]:
+                g = entry.cost_to_come + weight
+                # compute neighbor's f: g + h
+                f = g + h 
+                # push new queue entry with (f, next(c), neighbor, entry.node, g)
+                queue.push(QueueEntry(f, next(c), neighbor, entry.node, g)) # fill in
             # END QUESTION 2.1
     raise nx.NetworkXNoPath("Node {} not reachable from {}".format(goal, start))
 
@@ -110,8 +109,15 @@ def extract_path(parents, goal):
     """
     # Follow the parents of the node until a NULL entry is reached
     # BEGIN QUESTION 2.1
-    "*** REPLACE THIS LINE ***"
-    raise NotImplementedError
+    # backtrace from goal to parent
+    path = []
+    node = goal
+
+    while node != NULL:
+        path.append(node)
+        node = parents[node]
+    path.reverse()
+    return path
     # END QUESTION 2.1
 
 
