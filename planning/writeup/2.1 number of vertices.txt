@@ -1,0 +1,32 @@
+number of vertices = 1200
+Path length: 356.3329847638013
+Planning time: 7.075255632400513
+
+vertices = 600
+Path length: 362.88692665140957
+Planning time: 1.9473800659179688
+
+vertices = 550
+Path length: 362.88692665140957
+Planning time: 1.4515855312347412
+
+vertices = 545
+Path length: 362.88692665140957
+Planning time: 1.4245045185089111
+
+vertices = 543
+Path length: 362.88692665140957
+Planning time: 1.4212257862091064
+
+vertices = 542
+Path length: 362.88692665140957
+Planning time: 1.4086189270019531
+
+vertices = 541
+Path length: 362.88692665140957
+Planning time: 1.4428517818450928
+
+vertices = 540
+(fails)
+
+explanation:

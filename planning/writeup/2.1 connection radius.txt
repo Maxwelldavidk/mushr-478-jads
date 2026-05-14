@@ -1,0 +1,25 @@
+radius = 200
+Path length: 362.88669499958723
+Planning time: 6.899101257324219
+
+
+radius = 100
+Path length: 362.88692665140957
+Planning time: 1.7525873184204102
+
+radius = 90
+Path length: 362.88692665140957
+Planning time: 1.5349822044372559
+
+radius = 80
+Path length: 362.9078053764987
+Planning time: 1.1445322036743164
+
+radius = 70
+Path length: 362.97329826568216
+Planning time: 0.9330744743347168
+
+radius = 60
+(failed)
+
+explanation: 
