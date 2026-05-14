@@ -150,6 +150,8 @@ class PlannerROS:
         if self.rm is None:
             return False
 
+        path_states = self.plan_to_goal(start, self.goal)
+
         self.goal = np.array(utils.pose_to_particle(msg.pose))
         start = self._get_car_pose()
         if path_states is None:
