@@ -71,3 +71,7 @@ Curvature: 15
 Explenation: 
 
 As curvature increased, the computed paths became tighter and more direct because the Dubins car was allowed to turn more sharply. At lower curvature values, the planner had to use wider arcs, which made the path longer and more constrained by the car’s turning radius. Quantitatively, the path length consistently decreased as curvature increased, dropping from 16.0869 at curvature 3 to 13.2060 at curvature 15. The shortest path occurred at curvature 15, which makes sense because greater allowable curvature gives the vehicle more flexibility to reach the goal efficiently.
+
+## 7
+
+![rviz map0](Map_0_path.png)

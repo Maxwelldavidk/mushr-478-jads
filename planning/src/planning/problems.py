@@ -75,8 +75,8 @@ class PlanarProblem(object):
         # BEGIN QUESTION 1.2
         "*** REPLACE THIS LINE ***"
         coordinates = states.astype(int)   
-        # collect all the coordinates using the valid_bounds boolean array. This give the valid coordinates from within the extents of the map.
-        # then we check that valid coordinates are in the permissable region and return True if no collision and False otherwise.
+        # Pass the valid boolean array to itself. This insures permissable_region checks only valid states and updates according to collisions.
+        # collect all the coordinates using only valid states the check them to see if they are in the permissable region.
         # we then update the valid boolean array to be True for all coordinates tht are not in collision.
         valid[valid] = self.permissible_region[coordinates[valid, 1], coordinates[valid, 0]]   
         # END QUESTION 1.2
