@@ -75,3 +75,11 @@ As curvature increased, the computed paths became tighter and more direct becaus
 ## 7
 
 ![rviz map0](Map_0_path.png)
+
+## 8
+
+![rviz cse2_2](cse2_2.png)
+
+num_vertices:=1500 connection_radius:=10 curvature:=1
+
+## 9
