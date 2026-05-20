@@ -83,3 +83,24 @@ As curvature increased, the computed paths became tighter and more direct becaus
 num_vertices:=1500 connection_radius:=10 curvature:=1
 
 ## 9
+
+RRT has two key parameters: `eta` (step size toward sampled node) and `bias` (probability of sampling the goal directly). Defaults: `eta=0.5, bias=0.05`.
+
+**Bias** — Higher bias pulls the tree toward the goal faster. At bias=0.2 the path converged in 25 edges (vs 98 at 0.05). Bias=0.4–0.75 was fastest (~27–30 edges). Bias=0.9 over-sampled the goal, wasting iterations extending from distant nodes (97 edges). Sweet spot: 0.2–0.4.
+
+**Eta** — Small eta (0.15–0.25) takes cautious steps, needing ~270+ edges and ~0.4s. Large eta (0.75–1.0) converges in 17–35 edges (~0.01s) but produces longer, coarser paths. Sweet spot: ~0.5.
+
+**Max iter** — On this map the planner always converged by iteration 98, so values beyond 100 had no effect. In harder environments, a conservative max_iter (2500–5000) prevents returning an empty array if the tree needs more exploration.
+
+![rrt base](rrt_iter_1000_eta_0-5_bias_0-05.png)
+![rrt eta=0.15](rrt_iter_1000_eta_0-15_bias_0-05.png)
+![rrt eta=0.25](rrt_iter_1000_eta_0-25_bias_0-05.png)
+![rrt eta=0.75](rrt_iter_1000_eta_0-75_bias_0-05.png)
+![rrt eta=1.0](rrt_iter_1000_eta_1_bias_0-05.png)
+![rrt bias=0.2](rrt_iter_1000_eta_0-5_bias_0-2.png)
+![rrt bias=0.4](rrt_iter_1000_eta_0-5_bias_0-4.png)
+![rrt bias=0.5](rrt_iter_1000_eta_0-5_bias_0-5.png)
+![rrt bias=0.75](rrt_iter_1000_eta_0-5_bias_0-75.png)
+![rrt bias=0.9](rrt_iter_1000_eta_0-5_bias_0-9.png)
+![rrt max_iter=100](rrt_iter_100_eta_0-5_bias_0-05.png)
+![rrt max_iter=500](rrt_iter_500_eta_0-5_bias_0-05.png)

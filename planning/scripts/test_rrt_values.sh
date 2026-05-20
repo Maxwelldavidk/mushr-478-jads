@@ -15,7 +15,6 @@ do
     echo "  bias = $BIAS"
     echo "  iter = $ITERS"
     echo ""
-
     
     cd ~/mushr_ws/src/mushr478/planning
     python3 scripts/run_search \
