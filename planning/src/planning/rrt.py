@@ -55,8 +55,16 @@ def rrt(rm, start, goal, bias=0.05, eta=0.5, max_iter=1000):
         # 2. get the nearest neighbor from the tree
         # 3. connect the new sample to the nearest neighbor with step size eta
         # BEGIN QUESTION 5
-        "*** REPLACE THIS LINE ***"
-        raise NotImplementedError
+        
+        # DRAW NEW SAMPLE
+        x_rand_sample = sample(rm, goal_config, bias)
+
+        # Get the nearest neighbor
+        x_near_id, x_near = tree.GetNearestVertex(x_rand_sample)
+
+        # Connect the new sample to the nearest neighbor with step size eta
+        x_new = extend(x_near, x_rand_sample, eta)
+
         # END QUESTION 5
 
         # increase counter by 1
@@ -66,8 +74,20 @@ def rrt(rm, start, goal, bias=0.05, eta=0.5, max_iter=1000):
         # 2. if so, add the sample and edge to the tree
         # 3. finally, check whether the goal has been reached and if so, terminate the search
         # BEGIN QUESTION 5
-        "*** REPLACE THIS LINE ***"
-        raise NotImplementedError
+        
+        # Check if the new sample/edge are valid
+        if (rm.problem.check_state_validity(x_new) and rm.problem.check_edge_validity(x_near, x_new)):
+            # Add new vertex
+            x_new_id = tree.AddVertex(x_new)
+
+            # Add new edge
+            tree.AddEdge(x_near_id, x_new_id)
+
+            # Check if we reached the goal
+            if rm.problem.goal_criterion(x_new, goal_config):
+                x_goal_id = x_new_id
+                break
+
         # END QUESTION 5
         
     if x_goal_id is None:
