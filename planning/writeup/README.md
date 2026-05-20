@@ -74,15 +74,35 @@ As curvature increased, the computed paths became tighter and more direct becaus
 
 ## 7
 
-![rviz map0](Map_0_path.png)
+The minimum and maximum steering angles used by MPC are -0.34 and 0.34 radians respectively. Knowing that the distance between the axles is 0.33 meters, what is the maximum curvature for the MuSHR car? (Hint: think about the kinematic car model.)
 
 ## 8
+
+Include an RViz screenshot of the MuSHR car tracking a path in maze_0, as well as the parameters you used to construct the roadmap.
+
+![rviz map0](Map_0_path.png)
+
+## 9
+
+Include an RViz screenshot of the MuSHR car tracking a path in cse2_2, as well as the parameters you used to construct the roadmap.
 
 ![rviz cse2_2](cse2_2.png)
 
 num_vertices:=1500 connection_radius:=10 curvature:=1
 
-## 9
+## 10
+
+If you retuned either the particle filter or MPC, describe why you thought it was necessary and how you chose the new parameters.
+
+We did not really have to change the parameters too much.
+
+## 11
+
+Demo (ROS bag): Run the planner with a controller of your choice and particle filter in real.
+
+## 12
+
+Try running RRT for different parameter values and provide an intuition on how those parameters affect the convergence and the solution. If no solution is found, the algorithm returns an empty array.
 
 RRT has two key parameters: `eta` (step size toward sampled node) and `bias` (probability of sampling the goal directly). Defaults: `eta=0.5, bias=0.05`.
 
