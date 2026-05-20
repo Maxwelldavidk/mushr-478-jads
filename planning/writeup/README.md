@@ -93,14 +93,37 @@ RRT has two key parameters: `eta` (step size toward sampled node) and `bias` (pr
 **Max iter** — On this map the planner always converged by iteration 98, so values beyond 100 had no effect. In harder environments, a conservative max_iter (2500–5000) prevents returning an empty array if the tree needs more exploration.
 
 ![rrt base](rrt_iter_1000_eta_0-5_bias_0-05.png)
+iter=1000, eta=0.5, bias=0.05
+
 ![rrt eta=0.15](rrt_iter_1000_eta_0-15_bias_0-05.png)
+iter=1000, eta=0.15, bias=0.05
+
 ![rrt eta=0.25](rrt_iter_1000_eta_0-25_bias_0-05.png)
+iter=1000, eta=0.25, bias=0.05
+
 ![rrt eta=0.75](rrt_iter_1000_eta_0-75_bias_0-05.png)
+iter=1000, eta=0.75, bias=0.05
+
 ![rrt eta=1.0](rrt_iter_1000_eta_1_bias_0-05.png)
+iter=1000, eta=1.0, bias=0.05
+
 ![rrt bias=0.2](rrt_iter_1000_eta_0-5_bias_0-2.png)
+iter=1000, eta=0.5, bias=0.2
+
 ![rrt bias=0.4](rrt_iter_1000_eta_0-5_bias_0-4.png)
+iter=1000, eta=0.5, bias=0.4
+
 ![rrt bias=0.5](rrt_iter_1000_eta_0-5_bias_0-5.png)
+iter=1000, eta=0.5, bias=0.5
+
 ![rrt bias=0.75](rrt_iter_1000_eta_0-5_bias_0-75.png)
+iter=1000, eta=0.5, bias=0.75
+
 ![rrt bias=0.9](rrt_iter_1000_eta_0-5_bias_0-9.png)
+iter=1000, eta=0.5, bias=0.9
+
 ![rrt max_iter=100](rrt_iter_100_eta_0-5_bias_0-05.png)
+iter=100, eta=0.5, bias=0.05
+
 ![rrt max_iter=500](rrt_iter_500_eta_0-5_bias_0-05.png)
+iter=500, eta=0.5, bias=0.05
