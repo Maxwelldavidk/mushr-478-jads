@@ -76,7 +76,7 @@ def rrt(rm, start, goal, bias=0.05, eta=0.5, max_iter=1000):
         # BEGIN QUESTION 5
         
         # Check if the new sample/edge are valid
-        if (rm.problem.check_state_validity(x_new) and rm.problem.check_edge_validity(x_near, x_new)):
+        if (rm.problem.check_state_validity(x_new) and rm.problem.check_edge_validity(x_near[0], x_new[0])):
             # Add new vertex
             x_new_id = tree.AddVertex(x_new)
 
