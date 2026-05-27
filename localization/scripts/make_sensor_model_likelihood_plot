@@ -67,10 +67,10 @@ def plot_sensor_model(raw_map_msg, laser_msg, sensor_params=None, show_angle=Fal
         max_range_meters=11.0,
         map_msg=map_msg,
         particles=particles,
-        laser_base_rot=np.empty(3),
         weights=weights,
         car_length=0,  # Ensure particles don't get shifted into laser frame
         sensor_params=sensor_params,
+        laser_base_rot=np.empty(3)
     )
 
     rospy.loginfo("Computing sensor model likelihoods...")
