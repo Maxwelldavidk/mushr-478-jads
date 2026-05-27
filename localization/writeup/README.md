@@ -77,6 +77,16 @@ sensor_params:
 
 explenation: For the final version, W kept hit_std the same so the peak stayed wider than in the original plot, but W increased z_short a lot so the short reading side of the curve became more visible. This redistributed more probability mass to measurements below the expected one. The spike at z_max stayed present, and the plot overall looked less like a single narrow spike and more like a mixture of the different sensor model cases as in the lecture slides.
 
+# Results for tunning on the map for figures 4 and 5.
+
+Figure 4
+
+![tuned sensor model](./fig_4_shapes_world_small.png)
+
+Figure 5
+
+![tuned sensor model](./fig_5_shapes_world_small.png)
+
 Include your tuned sensor model likelihood plot for the robot positioned at state (-9.6, 0.0, -2.5) in the maze_0 map.
 
 5: 
