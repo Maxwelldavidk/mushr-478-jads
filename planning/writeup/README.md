@@ -25,6 +25,11 @@ Holding the connection radius constant at 100, vary the number of vertices when 
 | 2 | 575 | 362.8869 | 0.6254 | At 575 vertices, A* still finds the same shortest path, but the planning time is slightly lower because the roadmap contains fewer vertices and edges to search.|
 | 3 | 550 | 362.8869 | 0.5691 | At 550 vertices, A* still finds the same shortest path and the planning time decreases slightly again. This suggests the roadmap is still sufficiently connected even with fewer sampled vertices. |
 | 4 | 540 | N/A | N/A | At 540 vertices, A* fails to find a path. Based on testing nearby values, the transition between 541 and 540 vertices appears to be the point where the roadmap becomes too sparse for the fixed radius of 100 to maintain connectivity between the start and goal. |
+| 5 | 700 | 356.3330 | 0.9489 | At 700 vertices, A* finds a slightly shorter path, but planning time increases because the roadmap is larger. |
+| 6 | 800 | 356.3330 | 1.2892 | At 800 vertices, the path length stays the same, while planning time increases again. |
+| 7 | 1000 | 356.3330 | 2.0860 | At 1000 vertices, the extra roadmap density mostly increases planning time. |
+| 8 | 1200 | 356.3330 | 2.7938 | At 1200 vertices, the path does not improve further, but planning time is the highest. |
+
 
 For your choice of number of vertices and connection radius, compute the shortest path on map2.txt with A* and with Lazy A*. Report the path length, planning time, and edges evaluated, and explain any variation. python3 scripts/run_search -m test/share/map2.txt -n <N> -r <R> [--lazy] r2 -s 252 115 -g 350 350
 
@@ -37,7 +42,11 @@ For your choice of number of vertices and connection radius, compute the shortes
 Compare the time spent on planning and shortcutting on map1.txt. Describe qualitatively how the paths differ.
 
 ## 5: 
+Time taken for planning: 12.961
+Time taken for shortcutting: 0.0113
+
 Shortcutting took much less time than planning in this test because it operates on an already computed path instead of searching the full roadmap graph. The original Lazy A* path followed the roadmap vertices more closely and therefore contained extra intermediate turns and waypoints. After shortcutting, the path became shorter and more direct because collision free connections were added between no -adjacent path vertices, removing unnecessary middle vertices.
+
 
 Holding the number of vertices and connection radius constant at 40 and 4 respectively, vary the curvature at 3, 4.5, 9, and 15 when computing the shortest path on map1.txt. Include plots of the computed paths for each curvature. Describe qualitatively how the paths differ, and quantitatively compare the path lengths.
 
@@ -75,6 +84,8 @@ As curvature increased, the computed paths became tighter and more direct becaus
 ## 7
 
 The minimum and maximum steering angles used by MPC are -0.34 and 0.34 radians respectively. Knowing that the distance between the axles is 0.33 meters, what is the maximum curvature for the MuSHR car? (Hint: think about the kinematic car model.)
+
+k = tan(delta) / L = tan(0.34) / 0.33 ~ 1.0719m^-1
 
 ## 8
 
