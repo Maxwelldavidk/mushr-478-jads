@@ -37,7 +37,6 @@ class TestMPCController(unittest.TestCase):
             },
             "permissible_region": permissible_region,
             "map_info": MapMetaData(resolution=0.1),
-            "use_costmap": False,
         }
 
     def test_sample_controls(self):

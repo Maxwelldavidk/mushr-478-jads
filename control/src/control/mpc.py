@@ -17,14 +17,13 @@ class CostmapListener:
 
     def callback(self, msg):
         data = np.array(msg.data).reshape((msg.info.height, msg.info.width))
-        # Free space = 0; unknown = -1; obstacle = 100+
+        # Set permissible_region - Free space in grid has value 0
         self.permissible_region = data == 0
         self.map_info = msg.info
         self._received = True
 
     def get_latest(self):
         return self.permissible_region, self.map_info if self._received else (None, None)
-
 
 class ModelPredictiveController(BaseController):
     def __init__(self, **kwargs):
