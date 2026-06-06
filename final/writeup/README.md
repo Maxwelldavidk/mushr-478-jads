@@ -1,3 +1,17 @@
 # Final Project
 
-Place your writeup answers here
+## Writeup
+
+### 1. What controller type did you choose to use for path following with multiple waypoints (pid, pp, mpc)? Why did you choose this controller type?
+
+We used mpc mainly because we felt it corresponded better with the real world conditions (we intended to do the obstacle avoidance task). The controller is launched with `type:=mpc`, and our MPC parameters are set to `K: 2`, `T: 1`, and `distance_lookahead: 0.1`. We chose MPC over PID and Pure Pursuit because it explicitly solves an optimization over a receding horizon, allowing it to balance path tracking accuracy, smoothness, and obstacle avoidance simultaneously. For a multi-waypoint path spanning the full map (8 waypoints across ~9m in x and ~7m in y as seen in `planning/config/final_proj_waypoints.yaml`), MPC produces smoother trajectories between waypoints by considering future states rather than reacting greedily. This is especially important when transitioning between waypoints with sharp orientation changes, where PID would overshoot and Pure Pursuit would cut corners. The tradeoff is computational cost, but our hardware seemed to handle it pretty well.
+
+### 2. What roadmap parameters did you use for planning (num_vertices, connection_radius, curvature)? Why did you choose these parameters?
+
+We used `num_vertices:=1000`, `connection_radius:=20`, and `curvature:=1`. We chose **1000 vertices** because the map (002) covers a large area (~10m x 8m) with 8 waypoints that form a loop; fewer vertices would leave gaps in the roadmap connectivity, making it hard to find feasible paths between distant waypoints. We chose **connection_radius=20** to ensure vertices across narrow paths and corners can connect, which is critical since waypoints 1 and 2 span from x≈0.3 to x≈5.0 with a y-offset, requiring edges that cross open spaces. We chose **curvature=1** to constrain the roadmap edges to paths the car can physically follow given its minimum turning radius as different values might lead to bad driving or violations of the car's kinematic constraints.
+
+### 3. What was the most difficult part of making your code work with multiple waypoints?
+
+The most difficult part was tuning parameters across all subsystems to work reliably together for the full 8-waypoint loop. Since there was no well-defined optimization function or simulation that we could quickly iterate on, it was a time-consuming process of trial and error to find parameter values that worked robustly. This was especially pronounced with the MPC controller when attempting obstacle avoidance. MPC parameters (K, T, distance_lookahead) were particularly difficult to tune because they directly control the tradeoff between obstacle aversion and path following accuracy: a larger horizon (T) improves lookahead but increases computation; a smaller distance_lookahead makes the car react more aggressively to the immediate path but can cause instability around corners. Additionally, the planner's roadmap parameters and the controller's behavior interact non-trivially — a sparse roadmap combined with aggressive MPC gains would cause the car to deviate significantly between waypoints, while a dense roadmap with conservative MPC gains would make the car too slow. Finding the right balance required iterating on the real hardware for each adjustment, making the process significantly slower than if we had a simulation environment for rapid prototyping. 
+
+
