@@ -10,7 +10,7 @@
     <arg name="cache_roadmap" default="false"/>
     <arg name="map_file" default="002.yaml"/>
     <arg name="num_goals" default="1"/>
-    <arg name="max_speed" default="1"/>
+    <arg name="max_speed" default="2"/>
     <arg name="tf_prefix" default="car/"/>
 
     <group ns="$(arg car_name)">
